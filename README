@@ -1,0 +1,17 @@
+A simple wrapper for bwctl to capture test run on demand.
+
+Includes simplistic capture of data from the test and parameters
+used to instigate test. The motivation is to support thoughput
+tests in minimal install environments, where only iperf and bwctl
+may be available.  The goal is to test campus and cluster fabric 
+networks internally and to various external endpoints.
+
+Includes some utilities to prepare the data for further 
+consumption, e.g. Octave/Matlab.
+
+More elaborate schemes should probably gravitate toward the
+thoughput monitoring harnesses developed as part of the 
+perfsonar toolkit.
+
+This wrapper may eventually just interface with that library
+framework.
