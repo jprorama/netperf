@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# extract the bit rate from a bwctl(iperf) output on stdin
+# assumes the last line is a summary line with the average
+# uses - a the separator to get consistent field count
+
+grep bits/sec | head -n -1 | cut -d- -f2-| awk '{print $5}'
