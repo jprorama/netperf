@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# show the parameters used in running the experiment
+# assumes parameters recorded as last 3 lines in output file
+
+tail -3
