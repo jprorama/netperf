@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Test bandwidth between client and server hosts using bwctl
+# Caputure the output of the experiment in a log file
+# provides defaults for common options to bwctl 
+# accepts all other bwctl options for flexibility after --
+# records the command parameters and date in the bwctl output file
+
+
+# parse default args for bwctl
+# based on /usr/share/doc/util-linux/examples/getopt-parse.bash
+TEMP=`getopt -o d:i:P:t: \
+     -n $0 -- "$@"`
+
+if [ $? != 0 ] ; then echo "error: getopt" >&2 ; exit 1 ; fi
+
+eval set -- "$TEMP"
+
+while true ; do
+        case "$1" in
+                -d) dir=$2 ; shift 2 ;;
+                -i) interval=$2 ; shift 2 ;;
+                -P) numstreams=$2 ; shift 2 ;;
+                -t) timelength=$2 ; shift 2 ;;
+                --) shift ; break ;;
+                *) echo "error: arg parsing" ; exit 1 ;;
+        esac
+done
+
+# defaults if not otherwise specified
+dir=${data:-"data/"}
+interval=${interval:-1}
+timelength=${timelength:-30}
+numstreams=${numstreams:-1}
+
+cmd="bwctl -t $timelength -i $interval -P $numstreams -d $dir -p $@"
+
+# debug cmd
+#echo $cmd
+#exit  1
+
+outfile=`$cmd`
+
+
+echo >> $outfile
+echo RUN PARAMETERS >> $outfile
+echo -n "date: " >> $outfile
+date >> $outfile
+echo -n "submit host: " >> $outfile
+hostname -f >> $outfile
+echo "exec: $cmd" >> $outfile
